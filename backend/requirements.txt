@@ -1,0 +1,7 @@
+openai
+langchain-huggingface
+langchain-google-genai
+langchain-core
+beautifulsoup4
+lxml
+transformers

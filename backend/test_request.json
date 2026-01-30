@@ -1,0 +1,66 @@
+{
+  "viewed_product": {
+    "id": "1",
+    "name": "Samsung Galaxy S24 Ultra",
+    "price": 1199.99,
+    "category": "Smartphones",
+    "description": "Premium flagship phone with S Pen, 200MP camera, and Snapdragon 8 Gen 3 processor",
+    "store": "Samsung Store",
+    "brand": "Samsung",
+    "is_local": false,
+    "is_eco_friendly": false
+  },
+  "candidate_products": [
+    {
+      "id": "2",
+      "name": "Samsung Galaxy S23 Ultra",
+      "price": 899.99,
+      "category": "Smartphones",
+      "description": "Previous generation flagship with S Pen and excellent camera",
+      "store": "Best Buy",
+      "brand": "Samsung",
+      "is_local": false,
+      "is_eco_friendly": false
+    },
+    {
+      "id": "3",
+      "name": "Google Pixel 8 Pro",
+      "price": 999.99,
+      "category": "Smartphones",
+      "description": "Google's flagship with exceptional AI features and camera",
+      "store": "Google Store",
+      "brand": "Google",
+      "is_local": false,
+      "is_eco_friendly": true
+    },
+    {
+      "id": "4",
+      "name": "OnePlus 12",
+      "price": 799.99,
+      "category": "Smartphones",
+      "description": "High-performance flagship killer with great value",
+      "store": "OnePlus",
+      "brand": "OnePlus",
+      "is_local": false,
+      "is_eco_friendly": false
+    },
+    {
+      "id": "5",
+      "name": "iPhone 15 Pro Max",
+      "price": 1199.99,
+      "category": "Smartphones",
+      "description": "Apple's premium flagship with A17 Pro chip and titanium design",
+      "store": "Apple Store",
+      "brand": "Apple",
+      "is_local": false,
+      "is_eco_friendly": false
+    }
+  ],
+  "user_preferences": {
+    "budget": 1000.0,
+    "preferred_brands": ["Samsung", "Google"],
+    "blocked_brands": [],
+    "local_preference": false,
+    "eco_preference": true
+  }
+}
