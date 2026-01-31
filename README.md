@@ -740,13 +740,6 @@ Visit **http://localhost:8000/docs** for interactive Swagger documentation.
 
 ---
 
-## 👥 Team
-
-- **Yassine** - Backend & AI/ML
-- **Medya** - Frontend & Integration
-
----
-
 ## 📄 License
 
 MIT License - See [LICENSE](LICENSE) for details.
