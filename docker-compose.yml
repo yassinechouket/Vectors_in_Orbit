@@ -1,0 +1,105 @@
+version: '3.8'
+
+services:
+  # Qdrant Vector Database
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: fincommerce-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    environment:
+      - QDRANT__SERVICE__GRPC_PORT=6334
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    networks:
+      - fincommerce-network
+
+  # FastAPI Backend
+  backend:
+    image: ${DOCKERHUB_USERNAME:-fincommerce}/backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fincommerce-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+      - LOG_LEVEL=INFO
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./backend/logs:/app/logs
+      - model_cache:/root/.cache
+    depends_on:
+      qdrant:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+    networks:
+      - fincommerce-network
+
+  # Next.js Frontend
+  frontend:
+    image: ${DOCKERHUB_USERNAME:-fincommerce}/frontend:latest
+    build:
+      context: ./Web_app
+      dockerfile: Dockerfile
+    container_name: fincommerce-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks:
+      - fincommerce-network
+
+  # Data Loader (one-time job to populate products)
+  data-loader:
+    image: ${DOCKERHUB_USERNAME:-fincommerce}/backend:latest
+    container_name: fincommerce-data-loader
+    environment:
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+    depends_on:
+      qdrant:
+        condition: service_healthy
+    networks:
+      - fincommerce-network
+    command: python upload_products.py
+    restart: "no"
+    profiles:
+      - setup
+
+volumes:
+  qdrant_storage:
+    driver: local
+  model_cache:
+    driver: local
+
+networks:
+  fincommerce-network:
+    driver: bridge

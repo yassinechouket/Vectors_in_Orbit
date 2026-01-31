@@ -1,0 +1,15 @@
+ENHANCEMENTS_GUIDE.md
+BEHAVIOR_AWARE_DESIGN.md
+.env
+.venv/
+__pycache__/
+.DS_Store
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swo
+*.log
+logs/
+node_modules/
+test_enhancements.py
